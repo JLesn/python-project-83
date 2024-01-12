@@ -7,7 +7,7 @@ start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
 
 install:
-	poetry install
+	pip install --upgrade poetry && poetry build && poetry install
 
 reinstall:
 	python3 -m pip install --user dist/*.whl --force-reinstall
