@@ -1,6 +1,9 @@
 dev:
 	poetry run flask --app page_analyzer:app run
 
+dev-debug:
+	flask --app page_analyzer --debug run
+
 PORT ?= 8000
 
 start:
@@ -17,3 +20,6 @@ lint:
 
 build:
 	./build.sh
+
+psql-start:
+	sudo service postgresql start
