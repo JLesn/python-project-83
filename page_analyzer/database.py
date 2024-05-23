@@ -19,7 +19,10 @@ def add_to_db(url):
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             cur.execute(
-                "INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id;",
+                """
+                INSERT INTO urls (name, created_at)
+                VALUES (%s, %s) RETURNING id;
+                """,
                 (url, date.today()),
             )
             id = cur.fetchone().id
@@ -29,19 +32,19 @@ def add_to_db(url):
 def find_by_id(id):
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
-            cur.execute("SELECT * FROM urls WHERE id = %s;", (id,))
+            cur.execute("""SELECT * FROM urls WHERE id = %s;""", (id,))
             return cur.fetchone()
 
 
 def find_by_url(url):
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
-            cur.execute("SELECT * FROM urls WHERE name = %s;", (url,))
+            cur.execute("""SELECT * FROM urls WHERE name = %s;""", (url,))
             return cur.fetchone()
 
 
 def get_all_from_db():
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
-            cur.execute("SELECT * FROM urls ORDER BY id DESC;")
+            cur.execute("""SELECT * FROM urls ORDER BY id DESC;""")
             return cur.fetchall()
