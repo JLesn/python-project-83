@@ -42,18 +42,20 @@
         <th>Дата создания</th>
       </tr>
     </thead>
-    {% for check in checks %}
-    <tbody>
+    {% if checks %}
+      {% for check in checks %}
+      <tbody>
     
-    <tr>
-        <td></td>
-        <td</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-{% endfor %}
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{ check.created_at }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
       </table>
     </tbody>
 {% endblock %}

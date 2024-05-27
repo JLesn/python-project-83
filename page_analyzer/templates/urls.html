@@ -18,22 +18,18 @@
     </tr>
     </thead>
     <tbody>
-        {% for url in urls %}
+        {% for i in info %}
         <tr>
-          <td>{{ url.id }}</td>
+          <td>{{ i.id }}</td>
           <td>
-            <a>
-            {{ url.name }}
+            <a href="/urls/{{ i.id }}">
+            {{ i.name }}
             </a>
           </td>
-          
-          <td>{{ url.check }}</td>
-          
-          
-          <td>{{ url.response }}</td>
-          
+          <td>{{ i.created_at }}</td>
+          <td>{{ i.response }}</td>
         </tr>
-        {% endfor %}
+         {% endfor %}
     </tbody>
   </table>
 </div>

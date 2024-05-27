@@ -3,7 +3,7 @@ from page_analyzer.url_functions import normalize_url, is_valid
 from dotenv import load_dotenv
 import os
 from page_analyzer.database import add_to_db, find_by_id, find_by_url, \
-    get_all_from_db
+    make_check, get_checks, get_short_info
 
 project_folder = os.path.expanduser("~/python-project-83")
 load_dotenv(os.path.join(project_folder, ".env"))
@@ -20,8 +20,8 @@ def index():
 
 @app.get("/urls")
 def urls_get():
-    urls = get_all_from_db()
-    return render_template("urls.html", urls=urls)
+    info = get_short_info()
+    return render_template("urls.html", info=info)
 
 
 @app.post("/urls")
@@ -50,4 +50,11 @@ def urls_post():
 @app.get("/urls/<int:id>")
 def url_id(id):
     url = find_by_id(id)
-    return render_template("added_url.html", url=url)
+    checks = get_checks(id)
+    return render_template("added_url.html", url=url, checks=checks)
+
+
+@app.post("/urls/<id>/checks")
+def check_urls(id):
+    make_check(id)
+    return redirect(url_for('url_id', id=id))
