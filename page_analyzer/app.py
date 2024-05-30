@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 from page_analyzer.database import add_to_db, find_by_id, find_by_url, \
     make_check, get_checks, get_short_info
+import requests
+
 
 project_folder = os.path.expanduser("~/python-project-83")
 load_dotenv(os.path.join(project_folder, ".env"))
@@ -56,5 +58,13 @@ def url_id(id):
 
 @app.post("/urls/<id>/checks")
 def check_urls(id):
+    try:
+        url = find_by_id(id).name
+        r = requests.get(url)
+        r.raise_for_status()
+    except requests.exceptions.RequestException:
+        flash("Произошла ошибка при проверке", "error")
+        return redirect(url_for('url_id', id=id))
     make_check(id)
+    flash('Страница успешно проверена', 'success')
     return redirect(url_for('url_id', id=id))

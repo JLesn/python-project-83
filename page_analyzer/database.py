@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import psycopg2
 from datetime import datetime
 from psycopg2.extras import NamedTupleCursor
+import requests
 
 
 load_dotenv()
@@ -51,14 +52,18 @@ def get_all_from_db():
 
 
 def make_check(id):
+    url = find_by_id(id).name
+    r = requests.get(url)
+    status_code = r.status_code
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             cur.execute(
                 """
-                INSERT INTO url_checks (url_id, created_at)
-                VALUES (%s, %s);
+                INSERT INTO url_checks (url_id, status_code, created_at)
+                VALUES (%s, %s, %s);
                 """,
-                (id, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
+                (id, status_code,
+                    datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
 
 
 def get_checks(id):
