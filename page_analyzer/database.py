@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import psycopg2
 from datetime import datetime
 from psycopg2.extras import NamedTupleCursor
-import requests
+from page_analyzer.check import check_html
 
 
 load_dotenv()
@@ -53,16 +53,17 @@ def get_all_from_db():
 
 def make_check(id):
     url = find_by_id(id).name
-    r = requests.get(url)
-    status_code = r.status_code
+    res = check_html(url)
     with connection() as conn:
         with conn.cursor(cursor_factory=NamedTupleCursor) as cur:
             cur.execute(
                 """
-                INSERT INTO url_checks (url_id, status_code, created_at)
-                VALUES (%s, %s, %s);
+                INSERT INTO url_checks
+                (url_id, status_code, h1, title, description, created_at)
+                VALUES (%s, %s, %s, %s, %s, %s);
                 """,
-                (id, status_code,
+                (id, res['status_code'], res['h1'],
+                    res['title'], res['description'],
                     datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
 
 
