@@ -30,11 +30,11 @@ def urls_get():
 def urls_post():
     link = request.form.get("url")
     errors = is_valid(link)
+    if "missing url" in errors:
+        flash("URL обязателен", "error")
+        return render_template("index.html", errors=errors), 422
     if "incorrect url" in errors:
         flash("Некорректный URL", "error")
-        return render_template("index.html", errors=errors), 422
-    elif "missing url" in errors:
-        flash("URL обязателен", "error")
         return render_template("index.html", errors=errors), 422
     else:
         url = normalize_url(link)
@@ -43,10 +43,9 @@ def urls_post():
             flash("Страница уже существует", "info")
             id = url_in_db.id
             return redirect(url_for("url_id", id=id))
-        else:
-            id = add_to_db(url)
-            flash("Страница успешно добавлена", "success")
-            return redirect(url_for("url_id", id=id), 302)
+        id = add_to_db(url)
+        flash("Страница успешно добавлена", "success")
+        return redirect(url_for("url_id", id=id), 302)
 
 
 @app.get("/urls/<int:id>")

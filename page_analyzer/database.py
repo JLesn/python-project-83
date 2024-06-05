@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import psycopg2
-from datetime import datetime
+from datetime import date
 from psycopg2.extras import NamedTupleCursor
 from page_analyzer.check import check_html
 
@@ -24,7 +24,7 @@ def add_to_db(url):
                 INSERT INTO urls (name, created_at)
                 VALUES (%s, %s) RETURNING id;
                 """,
-                (url, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+                (url, date.today().strftime("%Y-%m-%d")),
             )
             id = cur.fetchone().id
             return id
@@ -64,7 +64,7 @@ def make_check(id):
                 """,
                 (id, res['status_code'], res['h1'],
                     res['title'], res['description'],
-                    datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
+                    date.today().strftime("%Y-%m-%d")),)
 
 
 def get_checks(id):

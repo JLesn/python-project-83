@@ -26,8 +26,8 @@
             {{ i.name }}
             </a>
           </td>
-          <td>{{ i.created_at }}</td>
-          <td>{{ i.status_code }}</td>
+          <td>{{ i.created_at or ''}}</td>
+          <td>{{ i.status_code or '' }}</td>
         </tr>
          {% endfor %}
     </tbody>
