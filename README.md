@@ -1,4 +1,4 @@
-#Анализатор страниц
+# Анализатор страниц
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/JLesn/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/JLesn/python-project-83/actions)
@@ -15,7 +15,7 @@ https://page-analyzer-31an.onrender.com
 Для проверки нужно ввести URL сайта на главной странице.
 Проверенные сайты выводятся в виде таблицы на вкладке "Сайты".
 
-##Как установить:
+## Как установить:
 Склонировать репозиторий
 ```
 https://github.com/JLesn/python-project-83.gi
