@@ -22,7 +22,7 @@
         <tr>
           <td>{{ i.id }}</td>
           <td>
-            <a href="/urls/{{ i.id }}">
+            <a href="{{  url_for('url_id', id=i.id)  }}">
             {{ i.name }}
             </a>
           </td>
